@@ -31,18 +31,18 @@ def edit_fixer_file(cancer,sample_type, n_genes, n_samples, n_boot=10):
 	return('phixer_'+str(cancer)+'_'+sample_string+'.c')
 
 def run_phixer(cancer,sample_type, n_genes, n_samples, n_boot=10):
-	file = "../data/input_data/tcga/"+cancer+"/"
+	expr_file = "../data/input_data/tcga/"+cancer+"/"
 	if sample_type=="t":
-		file = file+"tumor_expression.txt"
+		expr_file = file+"tumor_expression.txt"
 	else:
-		file = file +"normal_expression.txt"
+		expr_file = file +"normal_expression.txt"
 
 	phixer_file = edit_fixer_file(cancer,sample_type, n_genes, n_samples, n_boot=10)
 	phixer_string = "phixer_"+cancer+"_"+sample+".out"
 	os.system("gcc -Wall "+phixer_file+" -fopenmp -o "+phixer_string) # compile phixer for this data
 	os.system("ulimit -s 1300000000")
 	os.system("export GOMP_STACKSIZE=2000000")
-	os.system("./"+phixer_string+" "+) # run phixer on the file
+	os.system("./"+phixer_string+" "+expr_file) # run phixer on the file
 	
 	# phixer outputs into the same directory as the .out file 
 	# so shoud have a follow-up command to make move
