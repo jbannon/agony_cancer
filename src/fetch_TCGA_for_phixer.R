@@ -104,7 +104,7 @@ normalize_counts = function(ht_counts, col_data){
 
 write_files = function(tcounts, ncounts, meta,cancer){
   write.table(data.frame(tcounts),
-              paste0("../data/input_data/tcga/",cancer,"/tumor_expression.csv"),
+              paste0("../data/input_data/tcga/",cancer,"/tumor_expression.txt"),
               row.names=F,col.names=F,sep=",")
   num_tumor_samples = dim(tcounts)[2]
   num_tumor_genes = dim(tcounts)[1]
@@ -113,7 +113,7 @@ write_files = function(tcounts, ncounts, meta,cancer){
   writeLines(paste0(num_tumor_samples,'\n',num_tumor_genes), fileConn)
   close(fileConn)  
   write.table(data.frame(ncounts),
-              paste0("../data/input_data/tcga/",cancer,"/normal_expression.csv"),
+              paste0("../data/input_data/tcga/",cancer,"/normal_expression.txt"),
               row.names=F,col.names=F,sep=",")
   
   num_normal_samples = dim(ncounts)[2]
