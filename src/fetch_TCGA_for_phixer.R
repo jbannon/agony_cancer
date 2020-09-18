@@ -93,9 +93,23 @@ write_files = function(tcounts, ncounts, meta,cancer){
   write.table(data.frame(tcounts),
               paste0("../data/input_data/tcga/",cancer,"/tumor_expression.csv"),
               row.names=F,col.names=F,sep=",")
+  num_tumor_samples = dim(tcounts)[2]
+  num_tumor_genes = dim(tcounts)[1]
+  
+  fileConn<-file(paste0("../data/input_data/tcga/",cancer,"/tdims.txt"))
+  writeLines(paste0(num_tumor_samples,'\n',num_tumor_genes), fileConn)
+  close(fileConn)  
   write.table(data.frame(ncounts),
               paste0("../data/input_data/tcga/",cancer,"/normal_expression.csv"),
               row.names=F,col.names=F,sep=",")
+  
+  num_normal_samples = dim(ncounts)[2]
+  num_normal_genes = dim(ncounts)[1]
+
+  fileConn<-file(paste0("../data/input_data/tcga/",cancer,"/ndims.txt"))
+  writeLines(paste0(num_normal_samples,'\n',num_normal_genes), fileConn)
+  close(fileConn) 
+
   write.csv(meta,paste0("../data/input_data/tcga/",cancer,"/index_gene_map.csv"),row.names = T)
 }
 argv = commandArgs(trailingOnly = T)
