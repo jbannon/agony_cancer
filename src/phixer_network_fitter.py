@@ -20,9 +20,9 @@ def edit_fixer_file(cancer,sample_type, n_genes, n_samples, n_boot=10):
 	with open('pphi_bs.c','r') as f:
 		lines = f.readlines()
 
-	lines[8] = '#define NROW'+str(n_genes)+'\n'
-	lines[9] = '#define TSAMPLE_COUNT'+str(n_samples)+'\n'
-	lines[10] = '#define NBOOTSTRAP'+str(n_boot)+'\n'
+	lines[8] = '#define NROW '+str(n_genes)+'\n'
+	lines[9] = '#define TSAMPLE_COUNT '+str(n_samples)+'\n'
+	lines[10] = '#define NBOOTSTRAP '+str(n_boot)+'\n'
 
 	with open('phixer_'+str(cancer)+'_'+sample_type+'.c','w') as of:
 		of.writelines(lines)
