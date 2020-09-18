@@ -30,9 +30,9 @@ def edit_fixer_file(cancer,sample_type, n_genes, n_samples, n_boot=10):
 def run_phixer(cancer,sample_type, n_genes, n_samples, n_boot=10):
 	expr_file = "../data/input_data/tcga/"+cancer+"/"
 	if sample_type=="t":
-		expr_file = file+"tumor_expression.txt"
+		expr_file = expr_file+"tumor_expression.txt"
 	else:
-		expr_file = file +"normal_expression.txt"
+		expr_file = expr_file +"normal_expression.txt"
 
 	phixer_file = edit_fixer_file(cancer,sample_type, n_genes, n_samples, n_boot=10)
 	phixer_string = "phixer_"+cancer+"_"+sample+".out"
