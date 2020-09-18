@@ -1,4 +1,5 @@
 import sys
+import os
 def fetch_counts(path):
 	
 	with open(path+"tdims.txt",'r') as f:
