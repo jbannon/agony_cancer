@@ -23,11 +23,13 @@ def edit_fixer_file(cancer,n_genes, n_samples, n_boot=10):
 
 	with open('phixer_'+str(cancer)+'.c','w') as of:
 		of.writelines(lines)
+	os.system("gcc -Wall phixer_"+cancer+".c+"+" -fopenmp -o phixer_"+cancer_".out")
 
 
 def main(cancer):
 	path = "../data/input_data/tcga/"+cancer+"/"
 	sample_counts, gene_counts = fetch_counts(path)
+	print([int(x) for x in sample_counts],gene_counts)
 	edit_fixer_file(cancer,n_genes = gene_counts[1], n_samples=sample_counts[1])
 	
 
