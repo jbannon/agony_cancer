@@ -67,10 +67,8 @@ stratify_samples = function(se,cancer){
 reconcile_genes = function(se, normal_samples,
                            tumor_samples,cancer,top_n=15000){
   exp_data = assay(se)
-  print(dim(exp_data))
   keep = filterByExpr(exp_data)
   exp_data = exp_data[keep,]
-  print(dim(exp_data))
   dds =DESeqDataSetFromMatrix(exp_data, colData = colData(se),
     design = ~1)
   dds = estimateSizeFactors(dds)
