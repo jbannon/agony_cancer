@@ -3,9 +3,10 @@ import sys
 
 
 def fetch_counts(path):
-
+	
 	with open(path+"tdims.txt",'r') as f:
 		lines = f.readlines()
+	print(lines)
 	tsamples = lines[0]
 	tgenes = lines[1]
 	
@@ -23,11 +24,14 @@ def edit_fixer_file(cancer,sample_type, n_genes, n_samples, n_boot=10):
 	lines[9] = '#define TSAMPLE_COUNT'+str(n_samples)+'\n'
 	lines[10] = '#define NBOOTSTRAP'+str(n_boot)+'\n'
 
-	with open('phixer_'+str(cancer)+'_'+sample_string+'.c') as of:
+	with open('phixer_'+str(cancer)+'_'+sample_type+'.c','w') as of:
 		of.writelines(lines)
-	return('phixer_'+str(cancer)+'_'+sample_string+'.c')
+	return('phixer_'+str(cancer)+'_'+sample_type+'.c')
 
 def run_phixer(cancer,sample_type, n_genes, n_samples, n_boot=10):
+	print(n_genes)
+	print(n_samples)
+	print(n_boot)
 	expr_file = "../data/input_data/tcga/"+cancer+"/"
 	if sample_type=="t":
 		expr_file = expr_file+"tumor_expression.txt"
@@ -35,7 +39,7 @@ def run_phixer(cancer,sample_type, n_genes, n_samples, n_boot=10):
 		expr_file = expr_file +"normal_expression.txt"
 
 	phixer_file = edit_fixer_file(cancer,sample_type, n_genes, n_samples, n_boot=10)
-	phixer_string = "phixer_"+cancer+"_"+sample+".out"
+	phixer_string = "phixer_"+cancer+"_"+sample_type+".out"
 	os.system("gcc -Wall "+phixer_file+" -fopenmp -o "+phixer_string) # compile phixer for this data
 	os.system("ulimit -s 1300000000")
 	os.system("export GOMP_STACKSIZE=2000000")
