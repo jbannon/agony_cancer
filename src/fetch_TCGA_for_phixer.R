@@ -64,13 +64,28 @@ stratify_samples = function(se,cancer){
 
 }
 
-reconcile_genes = function(se, normal_samples, 
-                           tumor_samples,cancer){
-  exp_data = assay(se) 
+reconcile_genes = function(se, normal_samples,
+                           tumor_samples,cancer,top_n=15000){
+  exp_data = assay(se)
+  print(dim(exp_data))
+  keep = filterByExpr(exp_data)
+  exp_data = exp_data[keep,]
+  print(dim(exp_data))
+  dds =DESeqDataSetFromMatrix(exp_data, colData = colData(se),
+    design = ~1)
+  dds = estimateSizeFactors(dds)
+  rsums <- rowSums( counts(dds, normalized=TRUE))
+  idx =names(sort(rsums)[1:top_n])
+
+  exp_data = exp_data[idx,]
+
   normal_expr = exp_data[,normal_samples]
   tumor_expr = exp_data[,tumor_samples]
   keep_normal = filterByExpr(normal_expr,min.count=10)
+
+  
   keep_tumor = filterByExpr(tumor_expr,min.count=10)
+
   genes_in_both = intersect(names(keep_normal), names(keep_tumor))
   write(paste0("number of kept genes:\t ",length(genes_in_both)),
         paste0("../data/input_data/tcga/",cancer,"/meta.txt"),append = T)
@@ -120,8 +135,7 @@ print("query done")
 dir.create(paste0("../data/input_data/tcga/",cancer),showWarnings = F)
 samples = stratify_samples(query,cancer=cancer)
 reconciled_samples= reconcile_genes(query,normal_samples = samples$ns,
-                                    tumor_samples = samples$ts,
-                                    cancer=cancer)
+                tumor_samples = samples$ts,cancer=cancer)
 tumor_counts = normalize_counts(reconciled_samples$te,col_data = samples$td)
 normal_counts = normalize_counts(reconciled_samples$ne,col_data = samples$nd)
 gene_meta = rowData(query)[reconciled_samples$kept,]

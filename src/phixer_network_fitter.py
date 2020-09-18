@@ -6,7 +6,7 @@ def fetch_counts(path):
 	
 	with open(path+"tdims.txt",'r') as f:
 		lines = f.readlines()
-	print(lines)
+	
 	tsamples = lines[0]
 	tgenes = lines[1]
 	
