@@ -24,7 +24,7 @@ def edit_fixer_file(cancer,n_genes, n_samples, n_boot=10):
 
 	with open('phixer_'+str(cancer)+'.c','w') as of:
 		of.writelines(lines)
-	os.system("gcc -Wall phixer_"+cancer+".c+"+" -fopenmp -o phixer_"+cancer+".out")
+	os.system("gcc -Wall phixer_"+cancer+".c"+" -fopenmp -o phixer_"+cancer+".out")
 
 
 def main(cancer):
