@@ -15,5 +15,5 @@ export GOMP_STACKSIZE=2000000
 echo "python edit"
 python edit_phixer_script.py LIHC normal
 echo "running phixer"
-./phixer_LIHC.out ../data/input_data/tcga/LIHC/normal_expression.txt
+./phixer_LIHC_n.out ../data/input_data/tcga/LIHC/normal_expression.txt
 mv pruned*normal_expression.txt ../data/results_data/tcga/LIHC/

@@ -14,7 +14,11 @@ def fetch_counts(path):
 	ngenes = lines[1]
 	return [int(tsamples), int(nsamples)], [int(tgenes), int(ngenes)]
 
-def edit_fixer_file(cancer,n_genes, n_samples, n_boot=10):
+def edit_fixer_file(cancer,n_genes, n_samples,sample_type, n_boot=10):
+	if sample_type=="normal":
+		s="_n"
+	else:
+		s="_t"
 	with open('pphi_bs.c','r') as f:
 		lines = f.readlines()
 
@@ -22,9 +26,9 @@ def edit_fixer_file(cancer,n_genes, n_samples, n_boot=10):
 	lines[9] = '#define TSAMPLE_COUNT '+str(n_samples)+'\n'
 	lines[10] = '#define NBOOTSTRAP '+str(n_boot)+'\n'
 
-	with open('phixer_'+str(cancer)+'.c','w') as of:
+	with open('phixer_'+str(cancer)+s+'.c','w') as of:
 		of.writelines(lines)
-	os.system("gcc -Wall phixer_"+cancer+".c"+" -fopenmp -o phixer_"+cancer+".out")
+	os.system("gcc -Wall phixer_"+cancer+s+".c"+" -fopenmp -o phixer_"+cancer+s+".out")
 
 
 def main(cancer,sample):
@@ -34,7 +38,7 @@ def main(cancer,sample):
 		idx=1
 	else:
 		idx=0
-	edit_fixer_file(cancer,n_genes = gene_counts[idx], n_samples=sample_counts[idx])
+	edit_fixer_file(cancer,n_genes = gene_counts[idx], n_samples=sample_counts[idx],sample_type=sample)
 	
 
 
