@@ -27,14 +27,18 @@ def edit_fixer_file(cancer,n_genes, n_samples, n_boot=10):
 	os.system("gcc -Wall phixer_"+cancer+".c"+" -fopenmp -o phixer_"+cancer+".out")
 
 
-def main(cancer):
+def main(cancer,sample):
 	path = "../data/input_data/tcga/"+cancer+"/"
 	sample_counts, gene_counts = fetch_counts(path)
-	print([int(x) for x in sample_counts],gene_counts)
-	edit_fixer_file(cancer,n_genes = gene_counts[1], n_samples=sample_counts[1])
+	if sample == "normal":
+		idx=1
+	else:
+		idx=0
+	edit_fixer_file(cancer,n_genes = gene_counts[idx], n_samples=sample_counts[idx])
 	
 
 
 if __name__ == '__main__':
 	cancer = sys.argv[1]
-	main(cancer)
+	sample = sys.argv[2]
+	main(cancer, sample)
