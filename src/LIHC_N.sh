@@ -11,7 +11,6 @@
 
 ulimit -s 1300000000
 export GOMP_STACKSIZE=2000000
-
 echo "python edit"
 python edit_phixer_script.py LIHC normal
 echo "running phixer"
