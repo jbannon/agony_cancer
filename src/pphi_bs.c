@@ -29,7 +29,7 @@ int
 main(int argc, char *argv[]) {
 	// Input and output file pointers, and vars needed for file reading
 	FILE *infp, *outfp;
-
+	printf("in main");
 	size_t read, len = 0;
 	char *line = NULL, *tok;
 
