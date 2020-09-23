@@ -65,7 +65,7 @@ stratify_samples = function(se,cancer){
 }
 
 reconcile_genes = function(se, normal_samples,
-                           tumor_samples,cancer,top_n=15000){
+                           tumor_samples,cancer,top_n=150 ){
   exp_data = assay(se)
   keep = filterByExpr(exp_data)
   exp_data = exp_data[keep,]
@@ -104,7 +104,7 @@ normalize_counts = function(ht_counts, col_data){
 
 write_files = function(tcounts, ncounts, meta,cancer){
   write.table(data.frame(tcounts),
-              paste0("../data/input_data/tcga/",cancer,"/tumor_expression.txt"),
+              paste0("../data/input_data/tcga/",cancer,"/",cancer,"_tumor_expression.txt"),
               row.names=F,col.names=F,sep=",")
   num_tumor_samples = dim(tcounts)[2]
   num_tumor_genes = dim(tcounts)[1]
@@ -113,7 +113,7 @@ write_files = function(tcounts, ncounts, meta,cancer){
   writeLines(paste0(num_tumor_samples,'\n',num_tumor_genes), fileConn)
   close(fileConn)  
   write.table(data.frame(ncounts),
-              paste0("../data/input_data/tcga/",cancer,"/normal_expression.txt"),
+              paste0("../data/input_data/tcga/",cancer,"/",cancer,"_normal_expression.txt"),
               row.names=F,col.names=F,sep=",")
   
   num_normal_samples = dim(ncounts)[2]
