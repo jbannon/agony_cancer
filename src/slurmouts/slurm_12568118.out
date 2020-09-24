@@ -1,5 +1,0 @@
-mkdir: cannot create directory ‘../data/results_data/tcga/LIHC’: No such file or directory
-python edit
-([50, 50], [15000, 15000])
-running phixer
-slurmstepd: error: *** JOB 12568118 ON c42-02 CANCELLED AT 2020-09-19T11:10:13 ***

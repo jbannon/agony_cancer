@@ -1,4 +1,0 @@
-compile phixer
-gcc: error: Wall: No such file or directory
-running phixer
-/opt/slurm/data/slurmd/job12556645/slurm_script: line 20: ./phixer.out: No such file or directory

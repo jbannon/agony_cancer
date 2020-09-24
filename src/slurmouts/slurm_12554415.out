@@ -1,4 +1,0 @@
-python edit
-([50, 50], [15000, 15000])
-running phixer
-slurmstepd: error: *** JOB 12554415 ON c30-09 CANCELLED AT 2020-09-18T17:11:04 ***
