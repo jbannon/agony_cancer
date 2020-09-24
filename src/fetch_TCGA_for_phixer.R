@@ -65,7 +65,7 @@ stratify_samples = function(se,cancer){
 }
 
 reconcile_genes = function(se, normal_samples,
-                           tumor_samples,cancer,top_n=150 ){
+                           tumor_samples,cancer,top_n=15000){
   exp_data = assay(se)
   keep = filterByExpr(exp_data)
   exp_data = exp_data[keep,]
@@ -143,6 +143,7 @@ write_files(tumor_counts,normal_counts,gene_meta,cancer)
 } else{
   cat("\nerror: cancer not a recognized project")
 }
+unlink("GDCdata",recursive=TRUE)
 
 
 
