@@ -114,7 +114,7 @@ def main(cancer,sample,zip_files=True, threshold=False, cutoff=0.99):
 		os.system("rm "+cancer+suffix+"_edges.txt")
 	else:
 		print("not yet implemented")
-		
+
 if  __name__=='__main__':
 	cancer = sys.argv[1]
 	sample =sys.argv[2]
