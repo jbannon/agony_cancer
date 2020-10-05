@@ -89,21 +89,26 @@ def main(cancer,sample,zip_files=True, threshold=False, cutoff=0.99):
 	else:
 		idx=0
 		suffix = "_T"
-	
+	print("editing phixer file")
 	phixer_call = edit_fixer_file(cancer,n_genes = gene_counts[idx], n_samples=sample_counts[idx],sample_type=sample)
 	phixer_call = phixer_call+" ../data/input_data/tcga/"+cancer+"/"+cancer+"_"+sample+"_expression.txt"
+	print("phixer call: ")
+	print(phixer_call)
 	os.system("ulimit -s 1300000000")
 	os.system("export GOMP_STACKSIZE=2000000")
-		
+	print("calling  phixer")
 	os.system(phixer_call)
 	phixer_out_string = "pruned_*_"+cancer+"_"+sample+"_expression.txt"
 	new_edgelist_string = cancer+suffix+"_edges.txt"
+	print("about to replace and rename")
 	replace_rename(phixer_out_string,new_edgelist_string)
 	agony_ostring = cancer+suffix+"_ranks.txt"
+	print("calling agony")
 	os.system("agony_weighted/agony -i "+new_edgelist_string+" -o "+agony_ostring+" -w")
-	os.system("mv "+"phixer_"+cancer+suffix.lower()+".c"+" ./code_cache/"+cancer+"_code/")
-	os.system("mv "+"phixer_"+cancer+suffix.lower()+".out"+" ./code_cache/"+cancer+"_code/")
-	os.system("mv "+cancer+suffix+".sh"+" ./code_cache/"+cancer+"_code/")
+	print("agony done")
+	#os.system("mv "+"phixer_"+cancer+suffix.lower()+".c"+" ./code_cache/"+cancer+"_code/")
+	#os.system("mv "+"phixer_"+cancer+suffix.lower()+".out"+" ./code_cache/"+cancer+"_code/")
+	#os.system("mv "+cancer+suffix+".sh"+" ./code_cache/"+cancer+"_code/")
 	if zip_files:
 		os.system("zip "+cancer+suffix+"_ranks.zip "+cancer+suffix+"_ranks.txt ")
 		os.system("zip "+cancer+suffix+"_edges.zip "+cancer+suffix+"_edges.txt ")
@@ -118,8 +123,6 @@ def main(cancer,sample,zip_files=True, threshold=False, cutoff=0.99):
 if  __name__=='__main__':
 	cancer = sys.argv[1]
 	sample =sys.argv[2]
-	print(cancer)
-	print(sample)
-	sys.exit(0)
+
 	main(cancer, sample)
 	
