@@ -1,3 +1,3 @@
 num patients:	 515
 num matched:	 63
-number of kept genes:	 15000
+number of kept genes:	 17825
