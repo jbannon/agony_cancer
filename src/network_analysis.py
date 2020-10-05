@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import fnmatch as fnm
 import os
 from collections import Counter
-
+import sys
 
 def read_ranks(project, sample):
 	base_path = "../data/results_data/tcga/"+project+"/"
@@ -73,10 +73,9 @@ def plot_rank_distribution(project, sample, rank_list,log=False,entropy=True):
 		with open("../figs/tcga/"+project+"/"+project+"_"+sample+"entropy.txt","w") as of:
 			of.writelines(str(H))
 
-def fetch_global_agonies():
+def fetch_global_agonies(projects):
 	normal_agonies = []
 	tumor_agonies = []
-	projects = ["BRCA","LIHC","LUAD", "HNSC", "KIRC"]
 	for project in projects:
 		with open("../data/results_data/tcga/"+project+"/"+project+"_N_total.txt") as f:
 			lines = f.readlines()
@@ -111,6 +110,16 @@ def differential_rank_analysis(project, normal_ranks, tumor_ranks,k=0):
 		of.writelines(both_genes)
 
 
+def count_at_ranks(rdict):
+	counts = {}
+	for key in rdict.keys():
+		counts[key]=len(rdict[key])
+	return counts
+
+def make_rank_table(nr,tr):
+	ncounts = count_at_ranks(nr)
+	tcounts = count_at_ranks(tr)
+	max_rank = max(max(ncounts.keys()),tcounts.keys())
 
 
 
@@ -125,16 +134,22 @@ def read_edgelist(project):
 	G = nx.read_weighted_edgelist(path)
 	return(G)
 
-if __name__ == '__main__':	
-	for project in ["LIHC", "LUAD", "HNSC", "KIRC", "BRCA"]:
+if __name__ == '__main__':
+	projects=["BLCA","BRCA", "COAD", "HNSC", "KICH", "KIRC", "KIRP", "LIHC", "LUAD", "LUSC","PRAD", "STAD", "THCA"]
+	global_ag = fetch_global_agonies(projects)
+	global_ag.to_csv("../data/results_data/tcga/ALL/global_agonies.csv")	
+	for project in projects:
 		normal_ranks,normal_multiset = read_ranks(project, "normal")
 		tumor_ranks,tumor_multiset = read_ranks(project, "tumor")
 		differential_rank_analysis(project,normal_ranks, tumor_ranks)
-		normal_ranks,normal_multiset = read_ranks(project, "normal")
-		tumor_ranks,tumor_multiset = read_ranks(project, "tumor")
-		plot_rank_distribution(project,"Normal",normal_multiset)
-		plot_rank_distribution(project,"Normal",normal_multiset,log=True,entropy=False)
-		plot_rank_distribution(project,"Tumor",tumor_multiset)
-		plot_rank_distribution(project,"Tumor",tumor_multiset,log=True,entropy=False)
+		norm_counts = count_at_ranks(normal_ranks)
+		tumor_counts = count_at_ranks(tumor_ranks)
+		print(project)
+		print(norm_counts)
+		print(tumor_counts)
+		#plot_rank_distribution(project,"Normal",normal_multiset)
+		#plot_rank_distribution(project,"Normal",normal_multiset,log=True,entropy=False)
+		#plot_rank_distribution(project,"Tumor",tumor_multiset)
+		#plot_rank_distribution(project,"Tumor",tumor_multiset,log=True,entropy=False)
 
 	

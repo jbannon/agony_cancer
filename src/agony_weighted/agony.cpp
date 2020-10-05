@@ -237,7 +237,7 @@ main(int argc, char **argv)
 		outputrank(f, *cg, cg->nodebudget());
 		if (outname) fclose(f);
 		std::string	s(outname);
-		s =s.substr(0,s.length()-10);
+		s =s.substr(0,s.length()-10 );
 		s= s+"_total.txt";
 		std::ofstream myfile;
     	myfile.open(s);

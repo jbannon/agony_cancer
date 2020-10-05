@@ -66,24 +66,30 @@ stratify_samples = function(se,cancer){
 
 reconcile_genes = function(se, normal_samples,
                            tumor_samples,cancer,top_n=15000){
-  exp_data = assay(se)
-  keep = filterByExpr(exp_data)
+  exp_data = assay(se)+1
+  #print(exp_data[1:5,1:5])
+  print("ping")
+  keep = filterByExpr(exp_data,min.count=1)
+  print("ting")
   exp_data = exp_data[keep,]
   dds =DESeqDataSetFromMatrix(exp_data, colData = colData(se),
     design = ~1)
+  print("zing")
   dds = estimateSizeFactors(dds)
+  print("tong")
   rsums <- rowSums( counts(dds, normalized=TRUE))
-  idx =names(sort(rsums)[1:top_n])
-
+  print("pring")
+  #idx =names(sort(rsums)[1:top_n])
+  idx = names(rsums)
   exp_data = exp_data[idx,]
 
   normal_expr = exp_data[,normal_samples]
   tumor_expr = exp_data[,tumor_samples]
-  keep_normal = filterByExpr(normal_expr,min.count=10)
+  keep_normal = rownames(normal_expr)
 
   
-  keep_tumor = filterByExpr(tumor_expr,min.count=10)
-
+  #keep_tumor = filterByExpr(tumor_expr,min.count=10)
+  keep_tumor = rownames(tumor_expr)
   genes_in_both = intersect(names(keep_normal), names(keep_tumor))
   write(paste0("number of kept genes:\t ",length(genes_in_both)),
         paste0("../data/input_data/tcga/",cancer,"/meta.txt"),append = T)
@@ -93,8 +99,11 @@ reconcile_genes = function(se, normal_samples,
 }
 
 normalize_counts = function(ht_counts, col_data){
+  print("ping")
   deseq_counts=DESeqDataSetFromMatrix(ht_counts, colData = col_data,design = ~1)
+  print("tang")
   deseq_counts = DESeq(deseq_counts)
+  print("slang")
   normalized_counts = counts(deseq_counts, normalized=TRUE)
   normalized_counts = t(normalized_counts)
   normalized_counts = scale(normalized_counts)
