@@ -118,5 +118,8 @@ def main(cancer,sample,zip_files=True, threshold=False, cutoff=0.99):
 if  __name__=='__main__':
 	cancer = sys.argv[1]
 	sample =sys.argv[2]
+	print(cancer)
+	print(sample)
+	sys.exit(0)
 	main(cancer, sample)
 	
