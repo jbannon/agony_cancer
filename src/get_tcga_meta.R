@@ -62,7 +62,7 @@ for (cancer in cancers){
 	dir.create(paste0("../data/input_data/tcga/",cancer,"/meta/"),recursive=T,showWarnings=F)
 	fileConn<-file(paste0("../data/input_data/tcga/",cancer,"/meta/n_samples.txt"))
   	writeLines(paste0('Tumor:\t',n_tumor_samples ,'\n','Normal:\t',n_normal_samples), fileConn)
-  	write.csv(stage_table,paste0("../data/input_data/tcga/",cancer,"/stage_counts.csv"),row.names = T)
+  	write.csv(stage_table,paste0("../data/input_data/tcga/",cancer,"/meta/stage_counts.csv"),row.names = T)
   	close(fileConn)  
 }
 	
